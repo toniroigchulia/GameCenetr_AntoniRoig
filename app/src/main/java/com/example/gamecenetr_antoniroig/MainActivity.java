@@ -1,7 +1,7 @@
 package com.example.gamecenetr_antoniroig;
+
 import android.os.Bundle;
 import android.view.View;
-
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
+import androidx.fragment.app.FragmentManager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,11 +23,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         recyclerView = findViewById(R.id.recyclerView);
         dataList = generateData();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new MainAdapter(dataList);
+        adapter = new MainAdapter(dataList, this);
         recyclerView.setAdapter(adapter);
 
         adapter.setOnItemClickListener(new MainAdapter.OnItemClickListener() {
@@ -61,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
                 if (!isRecyclerViewVisible) {
                     isRecyclerViewVisible = true;
                     recyclerView.setVisibility(View.VISIBLE);
+                    getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 } else {
                     finish();
                 }
